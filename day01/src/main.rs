@@ -4,12 +4,10 @@ fn part1(file: &str) -> u32 {
     file.lines()
         .map(|line| {
             line.chars()
-                .filter(|c| c.is_digit(10))
-                .map(|c| c.to_digit(10).expect("Failed to convert char to digit!"))
+                .filter_map(|c| c.to_digit(10))
                 .collect::<Vec<u32>>()
         })
         .map(|vec| {
-            println!("VEC: {:?}", vec);
             10 * vec.first().expect("Every line must have atleast one digit")
                 + vec.last().expect("Every line must have atleast one digit")
         })
@@ -86,6 +84,6 @@ fn main() {
     ]);
 
     let file = include_str!("input.txt");
-    // println!("Part1: {}", part1(&file));
-    part2(&file, &numbers);
+    println!("Part1: {}", part1(&file));
+    // part2(&file, &numbers);
 }
