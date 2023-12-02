@@ -17,3 +17,8 @@ Cargo.lock
 day01/debug/
 day01/target/
 day01/Cargo.toml
+
+# DAY02
+day02/debug/
+day02/target/
+day02/Cargo.toml
