@@ -1,35 +1,22 @@
 use std::collections::HashMap;
 
-fn part1(file: &str) {
-    let lines_vec = file.lines();
-
-    let mut sum = 0;
-    let mut num1 = 0;
-    let mut num2 = 0;
-    for line in lines_vec {
-        for c in line.chars() {
-            if !c.is_digit(10) {
-                continue;
-            }
-            num1 = c.to_digit(10).unwrap();
-            break;
-        }
-
-        for c in line.chars().rev() {
-            if !c.is_digit(10) {
-                continue;
-            }
-            num2 = c.to_digit(10).unwrap();
-            break;
-        }
-
-        sum += 10 * num1 + num2;
-    }
-
-    println!("Sum: {}", sum);
+fn part1(file: &str) -> u32 {
+    file.lines()
+        .map(|line| {
+            line.chars()
+                .filter(|c| c.is_digit(10))
+                .map(|c| c.to_digit(10).expect("Failed to convert char to digit!"))
+                .collect::<Vec<u32>>()
+        })
+        .map(|vec| {
+            println!("VEC: {:?}", vec);
+            10 * vec.first().expect("Every line must have atleast one digit")
+                + vec.last().expect("Every line must have atleast one digit")
+        })
+        .sum()
 }
 
-fn part2(file: &str, numbers: HashMap<&str, u32>) {
+fn part2(file: &str, numbers: &HashMap<&str, u32>) {
     let lines_vec = file.lines();
 
     let mut sum: u32 = 0;
@@ -99,6 +86,6 @@ fn main() {
     ]);
 
     let file = include_str!("input.txt");
-    part1(&file);
-    part2(&file, numbers);
+    // println!("Part1: {}", part1(&file));
+    part2(&file, &numbers);
 }
