@@ -1,0 +1,62 @@
+fn main() {
+    let file = include_str!("test.txt");
+
+    let f_lines = file.lines().collect::<Vec<&str>>();
+    for (i, l) in f_lines.lines().enumerate() {
+        for (c_i, c) in l.chars().enumerate() {
+            if c == '.' {
+                continue;
+            }
+
+            if ! c.is_digit(10) {
+                continue;
+            }
+
+            // Next to eachother
+            // Left
+            if f_lines[i].chars().nth(c_i - 1).unwrap().is_digit(10) {
+                continue;
+            }
+            // Right
+            if f_lines[i].chars().nth(c_i + 1).unwrap().is_digit(10) {
+                continue;
+            }
+
+            if i > 0 {
+                // Oben links
+                if f_lines[i-1].chars().nth(c_i - 1).unwrap().is_digit(10) {
+                    continue;
+                }
+                // Oben mitte
+                if f_lines[i-1].chars().nth(c_i).unwrap().is_digit(10) {
+                    continue;
+                }
+                // Oben rechts
+                if f_lines[i-1].chars().nth(c_i + 1).unwrap().is_digit(10) {
+                    continue;
+                }
+            }
+
+            if i < f_lines.len() {
+                if c_i > 0 {
+                    // Unten Links
+                    if f_lines[i+1].chars().nth(c_i - 1).unwrap().is_digit(10) {
+                        continue;
+                    }
+                }
+
+                // Unten mitte
+                if f_lines[i+1].chars().nth(c_i).unwrap().is_digit(10) {
+                    continue;
+                }
+
+                if c_i < l.chars.len() {
+                    // Oben Rechts
+                    if f_lines[i+1].chars().nth(c_i + 1).unwrap().is_digit(10) {
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+}
