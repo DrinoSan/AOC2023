@@ -22,3 +22,8 @@ day01/Cargo.toml
 day02/debug/
 day02/target/
 day02/Cargo.toml
+
+# DAY03
+day03/debug/
+day03/target/
+day03/Cargo.toml
