@@ -9,8 +9,20 @@
 #define INPUT "input.txt"
 #define TEST "test.txt"
 
+std::map<int32_t, std::vector<int32_t>> commonElementsMap;
+std::map<int32_t, std::vector<int32_t>> result_trees;
+std::vector<int32_t> result_tree_elements;
+
+void createGraph(int32_t node) {
+  std::vector<int32_t> nodes = commonElementsMap[node];
+  for (const auto node_ : nodes) {
+    result_tree_elements.push_back(node_);
+    createGraph(node_);
+  }
+}
+
 int main() {
-  std::ifstream file(TEST);
+  std::ifstream file(INPUT);
   std::vector<std::string> text;
   std::string prefix{"Card "};
   if (file.is_open()) {
@@ -24,12 +36,11 @@ int main() {
   }
 
   int32_t res;
-  std::map<int32_t, std::vector<int32_t>> commonElementsMap;
   int32_t cardIndex = 1;
   for (auto &line : text) {
     auto pipe_position = std::find(line.begin(), line.end(), '|');
 
-    std::string left_side(line.begin(), pipe_position);
+    std::string left_side(line.begin() + 1, pipe_position);
     std::string right_side(pipe_position + 1, line.end());
 
     std::istringstream left_stream(left_side);
@@ -52,6 +63,11 @@ int main() {
                           right_numbers.begin(), right_numbers.end(),
                           std::back_inserter(commonElementsVec));
 
+    int32_t idx{1};
+    for (auto &e : commonElementsVec) {
+      e = cardIndex + idx++;
+    }
+
     commonElementsMap[cardIndex++] = commonElementsVec;
 
     size_t equalCount = std::count_if(
@@ -72,17 +88,30 @@ int main() {
     res += tmp;
   }
 
-  /* std::cout << res << std::endl; */
+  std::cout << res << std::endl;
 
-  std::cout << "Common Eements for each card" << std::endl;
-  for (const auto [k, v] : commonElementsMap) {
-    std::cout << "Key: " << k << '\n';
-    std::cout << "\t\t";
-    for (const auto &e : v) {
-      std::cout << e << " ";
-    }
-    std::cout << std::endl;
+  for (const auto &[row_idx, values] : commonElementsMap) {
+    createGraph(row_idx);
+    result_trees[row_idx] = result_tree_elements;
+    result_tree_elements.clear();
   }
-  std::cout << std::endl;
+
+  // Counting keys
+  int keyCount = result_trees.size();
+
+  // Counting elements in vectors
+  int valueCount = 0;
+  for (const auto &entry : result_trees) {
+    const std::vector<int32_t> &values = entry.second;
+    valueCount += values.size();
+  }
+
+  // Total count
+  int totalCount = keyCount + valueCount;
+
+  std::cout << "Number of keys: " << keyCount << std::endl;
+  std::cout << "Number of elements in vectors: " << valueCount << std::endl;
+  std::cout << "Total count: " << totalCount << std::endl;
+
   return 0;
 }
