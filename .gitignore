@@ -27,3 +27,13 @@ day02/Cargo.toml
 day03/debug/
 day03/target/
 day03/Cargo.toml
+
+# DAY03 C++
+day03-cpp/main
+
+# DAY04
+day04/debug/
+day04/target/
+day04/Cargo.toml
+
+
