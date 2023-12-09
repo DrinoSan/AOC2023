@@ -80,7 +80,8 @@ int main() {
         partNumbers.push_back(
             std::move(PartNumber(std::stoi(tmpNum), char_idx - tmpNum.size(),
                                  line_idx, tmpNum.size())));
-      } if (line[char_idx] == '*') {
+      }
+      if (line[char_idx] == '*') {
         symbols.push_back(
             std::move(Symbol(line[char_idx], char_idx, line_idx)));
       }
