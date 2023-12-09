@@ -56,7 +56,6 @@ public:
 };
 
 int main() {
-
   std::ifstream file(INPUT);
   std::vector<std::vector<char>> map2D;
   std::vector<PartNumber> partNumbers;
@@ -68,7 +67,7 @@ int main() {
   }
 
   for (int32_t line_idx = 0; line_idx < map2D.size(); ++line_idx) {
-    std::string_view sv(map2D[line_idx].data(), map2D[line_idx].size());
+    /* std::string_view sv(map2D[line_idx].data(), map2D[line_idx].size()); */
     auto &line = map2D[line_idx];
 
     for (int32_t char_idx = 0; char_idx < line.size(); ++char_idx) {
